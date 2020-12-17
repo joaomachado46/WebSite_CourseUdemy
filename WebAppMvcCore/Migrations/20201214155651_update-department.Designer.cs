@@ -10,8 +10,8 @@ using WebAppMvcCore.Data;
 namespace WebAppMvcCore.Migrations
 {
     [DbContext(typeof(WebAppMvcCoreContext))]
-    [Migration("20201210121456_updateDB")]
-    partial class updateDB
+    [Migration("20201214155651_update-department")]
+    partial class updatedepartment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,7 +31,7 @@ namespace WebAppMvcCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Department");
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("WebAppMvcCore.Models.SalesRecord", b =>
@@ -44,13 +44,13 @@ namespace WebAppMvcCore.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int?>("SellerIdId");
+                    b.Property<int?>("SellerId");
 
                     b.Property<int>("Status");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SellerIdId");
+                    b.HasIndex("SellerId");
 
                     b.ToTable("SalesRecords");
                 });
@@ -65,7 +65,7 @@ namespace WebAppMvcCore.Migrations
 
                     b.Property<DateTime>("BirthDate");
 
-                    b.Property<int?>("DepartmentIdId");
+                    b.Property<int>("DepartmentId");
 
                     b.Property<string>("Email");
 
@@ -73,23 +73,24 @@ namespace WebAppMvcCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentIdId");
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Sellers");
                 });
 
             modelBuilder.Entity("WebAppMvcCore.Models.SalesRecord", b =>
                 {
-                    b.HasOne("WebAppMvcCore.Models.Seller", "SellerId")
+                    b.HasOne("WebAppMvcCore.Models.Seller", "Seller")
                         .WithMany("SalesRecords")
-                        .HasForeignKey("SellerIdId");
+                        .HasForeignKey("SellerId");
                 });
 
             modelBuilder.Entity("WebAppMvcCore.Models.Seller", b =>
                 {
-                    b.HasOne("WebAppMvcCore.Models.Department", "DepartmentId")
+                    b.HasOne("WebAppMvcCore.Models.Department", "Department")
                         .WithMany("Sellers")
-                        .HasForeignKey("DepartmentIdId");
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

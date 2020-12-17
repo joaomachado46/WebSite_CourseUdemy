@@ -10,8 +10,8 @@ using WebAppMvcCore.Data;
 namespace WebAppMvcCore.Migrations
 {
     [DbContext(typeof(WebAppMvcCoreContext))]
-    [Migration("20201210121737_updateDB2")]
-    partial class updateDB2
+    [Migration("20201210131522_updateDB5")]
+    partial class updateDB5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,7 +31,7 @@ namespace WebAppMvcCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Department");
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("WebAppMvcCore.Models.SalesRecord", b =>

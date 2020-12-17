@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebAppMvcCore.Data;
+using WebAppMvcCore.Services;
 
 namespace WebAppMvcCore
 {
@@ -38,14 +39,21 @@ namespace WebAppMvcCore
 
             services.AddDbContext<WebAppMvcCoreContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("WebAppMvcCoreContext")));
+
+            services.AddScoped<SeddingService>();
+            services.AddScoped<SellerService>();
+            services.AddScoped<DepartmentService>();
+
+                
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeddingService seddingService)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                seddingService.Seed();
             }
             else
             {
