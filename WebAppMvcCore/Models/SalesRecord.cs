@@ -13,15 +13,15 @@ namespace WebAppMvcCore.Models
         public double Amount  { get; set; }
         public SalesStatus Status { get; set; }
 
+        public int SellerId { get; set; }
         public Seller Seller { get; set; }
 
         public SalesRecord()
         {
         }
 
-        public SalesRecord(int id, DateTime date, double amount, SalesStatus status, Seller sellerId)
+        public SalesRecord(DateTime date, double amount, SalesStatus status, Seller sellerId)
         {
-            Id = id;
             Date = date;
             Amount = amount;
             Status = status;

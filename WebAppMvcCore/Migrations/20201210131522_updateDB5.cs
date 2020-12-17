@@ -4,10 +4,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebAppMvcCore.Migrations
 {
-    public partial class updateDB : Migration
+    public partial class updateDB5 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Sellers",
                 columns: table => new
@@ -16,17 +29,17 @@ namespace WebAppMvcCore.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    BaseSalary = table.Column<double>(nullable: false),
                     BirthDate = table.Column<DateTime>(nullable: false),
-                    DepartmentIdId = table.Column<int>(nullable: true)
+                    BaseSalary = table.Column<double>(nullable: false),
+                    DepartmentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sellers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Sellers_Department_DepartmentIdId",
-                        column: x => x.DepartmentIdId,
-                        principalTable: "Department",
+                        name: "FK_Sellers_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -40,28 +53,28 @@ namespace WebAppMvcCore.Migrations
                     Date = table.Column<DateTime>(nullable: false),
                     Amount = table.Column<double>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    SellerIdId = table.Column<int>(nullable: true)
+                    SellerId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SalesRecords", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SalesRecords_Sellers_SellerIdId",
-                        column: x => x.SellerIdId,
+                        name: "FK_SalesRecords_Sellers_SellerId",
+                        column: x => x.SellerId,
                         principalTable: "Sellers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_SalesRecords_SellerIdId",
+                name: "IX_SalesRecords_SellerId",
                 table: "SalesRecords",
-                column: "SellerIdId");
+                column: "SellerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sellers_DepartmentIdId",
+                name: "IX_Sellers_DepartmentId",
                 table: "Sellers",
-                column: "DepartmentIdId");
+                column: "DepartmentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -71,6 +84,9 @@ namespace WebAppMvcCore.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sellers");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
         }
     }
 }
